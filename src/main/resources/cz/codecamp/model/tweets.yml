@@ -1,0 +1,103 @@
+index:
+  analysis:
+    filter:
+#      cs_hunspell:
+#        recursion_level: "0"
+#        locale: "cs_CZ"
+#        type: "hunspell"
+#        dedup: "true"
+      cs_conjunctions:
+        type: "stop"
+        stopwords:
+        - "a"
+        - "i"
+      cs_prepositions:
+        type: "stop"
+        stopwords:
+        - "od"
+        - "z"
+        - "s"
+        - "do"
+        - "bez"
+        - "krom"
+        - "kromě"
+        - "místo"
+        - "podle"
+        - "podél"
+        - "kolem"
+        - "okolo"
+        - "u"
+        - "vedle"
+        - "během"
+        - "pomocí"
+        - "stran"
+        - "prostřednictvím"
+        - "za"
+        - "k"
+        - "proti"
+        - "naproti"
+        - "kvůli"
+        - "díky"
+        - "vůči"
+        - "pro"
+        - "za"
+        - "před"
+        - "mimo"
+        - "na"
+        - "pod"
+        - "pode"
+        - "nad"
+        - "nade"
+        - "mezi"
+        - "krom"
+        - "kromě"
+        - "skrz"
+        - "skrze"
+        - "o"
+        - "po"
+        - "v"
+        - "při"
+        - "s"
+        - "za"
+        - "před"
+        - "mezi"
+      ngram:
+        type: "ngram"
+        min_gram: "1"
+        max_gram: "3"
+      en_possessive_stemmer:
+        type: "stemmer"
+        language: "possessive_english"
+      en_stop:
+        type: "stop"
+        stopwords: "_english_"
+      en_stemmer:
+        type: "stemmer"
+        language: "english"
+    analyzer:
+      cs:
+        type: "custom"
+        tokenizer: "standard"
+        filter:
+        - "lowercase"
+        - "cs_prepositions"
+        - "cs_conjunctions"
+#        - "cs_hunspell"
+        - "asciifolding"
+      en:
+        type: "custom"
+        tokenizer: "standard"
+        filter:
+        - "en_possessive_stemmer"
+        - "lowercase"
+        - "en_stop"
+        - "en_stemmer"
+      ngram:
+        type: "custom"
+        tokenizer: "standard"
+        filter:
+        - "lowercase"
+        - "asciifolding"
+        - "ngram"
+  number_of_shards: "1"
+  number_of_replicas: "0"

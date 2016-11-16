@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "http://repo.spring.io/release" }
+    }
+
+    ext {
+        springBootVersion = "1.4.2.RELEASE"
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+group "cz.codecamp"
+version "1.0-SNAPSHOT"
+
+apply plugin: "java"
+apply plugin: "org.springframework.boot"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-data-elasticsearch:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
+    compile "com.twitter:hbc-core:2.2.0"
+    compile "com.google.code.gson:gson:2.2.4"
+    testCompile "junit:junit:4.11"
+}
+
+bootRun {
+    systemProperty "spring.profiles.active", "default,local"
+}
