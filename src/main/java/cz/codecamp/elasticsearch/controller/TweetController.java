@@ -40,7 +40,10 @@ public class TweetController {
         SearchQuery q = new NativeSearchQueryBuilder()
             .withQuery(
                 boolQuery()
-                    .must(matchQuery("textEn", "love"))
+                    .should(matchQuery("textEn", "love"))
+                    .should(matchQuery("textEn", "passion"))
+                    .should(matchQuery("textEn", "crush"))
+                    .minimumNumberShouldMatch(1)
             )
             .build();
 
@@ -52,7 +55,10 @@ public class TweetController {
         SearchQuery q = new NativeSearchQueryBuilder()
             .withQuery(
                 boolQuery()
-                    .must(matchQuery("textEn", "hate"))
+                    .should(matchQuery("textEn", "hate"))
+                    .should(matchQuery("textEn", "pain"))
+                    .should(matchQuery("textEn", "horror"))
+                    .minimumNumberShouldMatch(1)
             )
             .build();
 
@@ -75,6 +81,25 @@ public class TweetController {
             .stream()
             .map((bucket) -> Pair.of(bucket.getKeyAsString(), bucket.getDocCount()))
             .collect(Collectors.toList());
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET, path = "/hate/hashtags")
+    public List<Pair<String, Long>> hateHashtags() {
+        SearchQuery q = new NativeSearchQueryBuilder()
+                .withQuery(
+                        boolQuery()
+                                .must(matchQuery("textEn", "hate"))
+                )
+                .addAggregation(terms("hashtags").field("hashtags"))
+                .build();
+
+        StringTerms hashtags = elasticsearchOperations.query(q, (response) -> (StringTerms) response.getAggregations().get("hashtags"));
+
+        return hashtags.getBuckets()
+                .stream()
+                .map((bucket) -> Pair.of(bucket.getKeyAsString(), bucket.getDocCount()))
+                .collect(Collectors.toList());
     }
 
 }
