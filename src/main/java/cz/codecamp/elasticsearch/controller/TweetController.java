@@ -40,7 +40,10 @@ public class TweetController {
         SearchQuery q = new NativeSearchQueryBuilder()
             .withQuery(
                 boolQuery()
-                    .must(matchQuery("textEn", "love"))
+                    .should(matchQuery("textEn", "love"))
+                    .should(matchQuery("textEn","passion"))
+                    .should(matchQuery("textEn","crush"))
+                    .minimumShouldMatch("1")
             )
             .build();
 
@@ -52,7 +55,10 @@ public class TweetController {
         SearchQuery q = new NativeSearchQueryBuilder()
             .withQuery(
                 boolQuery()
-                    .must(matchQuery("textEn", "hate"))
+                    .should(matchQuery("textEn", "hate"))
+                    .should(matchQuery("textEn","pain"))
+                    .should(matchQuery("textEn","horror"))
+                    .minimumShouldMatch("1")
             )
             .build();
 
